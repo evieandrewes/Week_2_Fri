@@ -75,6 +75,13 @@ both_data %>%
   ggplot(aes(x=x, y=y, colour = dataset)) +
   geom_jitter() +
   facet_wrap(~dataset)
+  
+datasaurus_data %>% 
+  filter(dataset == "dino" | dataset == "star") %>%
+  ggplot(aes(x=x, y=y, colour = dataset)) +
+  geom_jitter() +
+  facet_wrap(~dataset)
+  
 
 ## Exercise 2
 For these same two datasets, find the mean and standard deviation
@@ -85,4 +92,9 @@ sd(both_data$y)
 
 mean(both_data$x)
 mean(both_data$y)
+
+datasaurus_data %>% 
+  filter(dataset == "dino" | dataset == "star") %>% 
+  group_by(dataset) %>% 
+  summarise(mean_x = mean(x), sd_x =(sd(x)), mean_y = mean(y), sd_x = sd(y))
 
