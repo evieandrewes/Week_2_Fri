@@ -41,6 +41,8 @@ min(comb_age) #1
 max(comb_age) #99
 
 data <- data.frame(comb_age)
+
+#hi
   
 ```
 
