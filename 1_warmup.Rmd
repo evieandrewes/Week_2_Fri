@@ -22,6 +22,11 @@ Assume the following definitions for a survey:
 Generate a vector with 100 random samples that specifies the age of 100 people (in years), but contains exactly 20 minors, 50 adults, and 30 seniors.
 
 ```{r}
+minors <- sample(1:17, 20, replace = TRUE)
+adult <- sample(18:64, 50, replace = TRUE)
+senior <- sample(65:99, 30, replace = FALSE)
+
+comb_age <- c(minors, adult, senior)
 
 ```
 
@@ -31,24 +36,42 @@ Now use some functions on your age vector to answer the following questions:
 
 ```{r}
 
+mean_age = mean(comb_age) #44.9
+min(comb_age) #1
+max(comb_age) #99
+
+data <- data.frame(comb_age)
+  
 ```
 
 2.  How many people are younger than 25 years?
 
 ```{r}
 
+under_25 <- data %>% 
+  filter(comb_age < 25)
+  
+summary(under_25)
+nrow(under_25)
 ```
 
 3.  What is the average (mean) age of people older than 50 years?
 
 ```{r}
+over_50 <- data %>% 
+  filter(comb_age > 50)
 
+mean(over_50$comb_age)
 ```
 
 4.  How many people have a round age (i.e., an age that is divisible by 10)? What is their mean age?
 
 ```{r}
+round <- data %>% 
+  filter(comb_age %% 10 == 0) #modulo/modulus
 
+nrow(round)
+mean(round$comb_age)
 ```
 
 ## Exercise 1: Strange histograms
