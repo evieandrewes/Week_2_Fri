@@ -12,30 +12,54 @@ Use [diamonds](https://ggplot2.tidyverse.org/reference/diamonds.html) example ta
 
 Select only `price`, `cut`, and `color` columns. Use piping and `select`.
 ```{r exercise 01-1}
+library(tidyverse)
+data <- diamonds
+
+diamonds %>% 
+  select(price, cut, color)
+
 ```
 
 Select only `price`, `cut`, and `color` columns. Use base R (no piping or select).
 ```{r exercise 01-2}
+diamonds$cut 
+diamonds$price
+diamonds$color
+
+ccp <- c(diamonds$cut, diamonds$price,diamonds$color)
+
+cpp <- data.frame(ccp)
+
+diamonds[,c(2,3,7)]
 ```
 
 Select all columns except for `x`, `y`, and `z`. Use negative selection and piping.
 ```{r exercise 01-3}
+diamonds %>% 
+  select(-x,-y,-z)
 ```
 
 Check out the help page for the `select()` function. Use `:` notation to select columns from `carat` till `clarity`.
 ```{r exercise 01-4}
+help("select")
+
+diamonds %>% 
+  select(,1:4)
 ```
 
 And now select these same columns by capitalising on the fact that all their names (and none of the others) start with the letter "c".
 
 ```{r exercise 01-5}
 
+diamonds %>% 
+  select(starts_with('c'))
+
 ```
 
 BONUS: How would you select these 4 columns in base R, without simply listing their names?
 
 ```{r exercise 01-6}
-
+diamonds [,1:5]
 ```
 
 
@@ -46,6 +70,7 @@ Examine the code and decide on whether a condition will be `TRUE` or `FALSE`. Wr
 ```{r exercise 02-1}
 x <- 4
 (x > 3)
+#TRUE
 ```
 
 **Answer 2:**
@@ -53,6 +78,7 @@ x <- 4
 x <- 4
 y <- 5
 (x != y)
+#TRUE
 ```
 ## Exercise 03: conditions 2
 Examine the code and decide on whether a condition will be `TRUE` or `FALSE`. Write down the answer and run the chunk to check the answer.
@@ -61,6 +87,7 @@ Examine the code and decide on whether a condition will be `TRUE` or `FALSE`. Wr
 ```{r exercise 03-1}
 x <- 4
 !(x < 3)
+#TRUE
 ```
 
 **Answer 2:**
@@ -68,6 +95,7 @@ x <- 4
 x <- 4
 y <- 5
 !(x != y)
+#FALSE
 ```
 
 ## Exercise 04: conditions 3
@@ -77,6 +105,7 @@ Examine the code and decide on whether a condition will be `TRUE` or `FALSE`. Wr
 ```{r exercise 03-1}
 x <- 4
 (x < 3) | (x >=4)
+#TRUE
 ```
 
 **Answer 2:**
@@ -84,6 +113,7 @@ x <- 4
 x <- 4
 y <- 6
 (x == y) | ((x < 5) & (y > 5))
+#TRUE
 ```
 
 **Answer 3:**
@@ -91,6 +121,7 @@ y <- 6
 x <- 3
 y <- 3
 (x != y) & ((x <= 3) & (y >= 3))
+#FALSE
 ```
 
 **Answer 4:**
@@ -98,6 +129,7 @@ y <- 3
 x <- 3
 y <- 3
 (x != y) | ((x <= 3) & (y >= 3))
+#TRUE
 ```
 ## Exercise 05: conditions
 Examine the code and decide on whether a condition will be `TRUE` or `FALSE`. Write down the answer and run the chunk to check the answer.
@@ -106,12 +138,19 @@ Examine the code and decide on whether a condition will be `TRUE` or `FALSE`. Wr
 ```{r exercise 05-1}
 x <- seq(-4, 4, 2)
 (x == 0)
+
+#FALSE FALSE  TRUE FALSE FALSE
+
+help("seq")
 ```
 **Answer 2:**
 ```{r exercise 05-2}
 x <- seq(-4, 4, 2)
 y <- 1:5
 (x + y <= 0)
+
+#TRUE  TRUE FALSE FALSE FALSE
+
 ```
 
 **Answer 3:**
@@ -119,12 +158,17 @@ y <- 1:5
 x <- seq(-4, 12, 4)
 y <- 1:5
 (x > y)
+
+#FALSE FALSE  TRUE  TRUE  TRUE
 ```
 **Answer 4:**
 ```{r exercise 05-4}
 x <- seq(-4, 12, 4)
 y <- 1:5
 (x > y) & ((x < 10) | (y < 3))
+
+#FALSE FALSE  TRUE  TRUE FALSE
+
 ```
 ## Exercise 06: logical indexing
 
@@ -132,19 +176,27 @@ Use logical indexing to values of `x` that are above 3.
 ```{r exercise 06-1}
 x <- -3:7
 # Your code goes here
+x[x>3]
+
 ```
 
 Use logical indexing to extract values of `x` when it is higher than value in `y`
 ```{r exercise 06-2}
 x <- -3:7
 y <- seq(5, -2, length.out = 11)
+x[x>y]
+
 # Your code goes here
 ```
 
 Use logical indexing to extract values of `x` that are greater than the mean value of x (avoid using intermediate variables).
 ```{r exercise 06-3}
 x <- -3:7
+mean_x <- mean(x)
+
+
 # Your code goes here
+x[x>(mean(x))]
 ```
 
 ## Exercise 07: filter
@@ -152,18 +204,29 @@ Use [msleep](https://ggplot2.tidyverse.org/reference/msleep.html) example table 
 
 Filter the table to keep only `"domesticated"` animals (variable name is `conservation`).
 ```{r exercise 07-1}
+data <- msleep %>% 
+  filter(conservation == 'domesticated')
 ```
 
 Filter the table to keep only the omnivores (`vore`) that sleep more than 10 hours in total.
 ```{r exercise 07-2}
+msleep %>% 
+  filter(vore == 'omni') %>% 
+  filter(sleep_total>10)
 ```
 
 Filter the table to exclude animals with body weight above `50`.
 ```{r exercise 07-3}
+msleep %>% 
+  filter(bodywt<=50)
+
 ```
 
 Filter the table to exclude animals with body weight below [median](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/median.html) body weight. Hint, you do not need a temporary variable. 
 ```{r exercise 07-4}
+
+msleep %>% 
+  filter(bodywt < median(bodywt))
 ```
 
 
